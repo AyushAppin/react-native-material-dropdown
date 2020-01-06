@@ -6,17 +6,18 @@ import {
   FlatList,
   Animated,
   Modal,
-  TouchableWithoutFeedback,
   Dimensions,
   Platform,
   ViewPropTypes,
   I18nManager,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import { TextField } from 'react-native-material-textfield';
 
 import DropdownItem from '../item';
 import styles from './styles';
+import {TouchableWithoutFeedback as RNTouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 export default class Dropdown extends PureComponent {
   static defaultProps = {
@@ -723,15 +724,16 @@ export default class Dropdown extends PureComponent {
       accessible,
       accessibilityLabel,
     };
-
+    let TouchableComponent = Platform.OS === 'android' ? RNTouchableWithoutFeedback : TouchableWithoutFeedback
     return (
       <View onLayout={this.onLayout} ref={this.updateContainerRef} style={containerStyle}>
-        <TouchableWithoutFeedback {...touchableProps}>
+        
+        <TouchableComponent {...touchableProps}>
           <View pointerEvents='box-only'>
             {this.renderBase(props)}
             {this.renderRipple()}
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableComponent>
 
         <Modal
           visible={modal}
